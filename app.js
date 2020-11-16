@@ -18,15 +18,27 @@ function addMember() {
         type: "confirm",
         message: "Would you like to add a new team member?",
         name: "addNewMember", 
-    }]).then(function(data){
-    if (data.addNewMember == "y") {
-        teamPrompts();
-    }
-    else {
-        build();
-        console.log("Thank you for using this app. Your team profile has been generated.")
-    };
-});
+    }]).then((response) => {
+        if (response.addNewMember) {
+            // console.log("we know you said yes");
+            teamPrompts();
+        }
+        else {
+            build();
+            console.log("Thank you for using this app. Your team profile has been generated.");
+        }
+    })
+};
+        
+    //     function(data){
+    // if (data.addNewMember == "y") {
+    //     teamPrompts();
+    // }
+    // else {
+    //     build();
+    //     console.log("Thank you for using this app. Your team profile has been generated.")
+    // };
+    // );
 
 function teamPrompts() {
     inquirer.prompt([{
@@ -49,7 +61,7 @@ function teamPrompts() {
             case "Intern":
                 newIntern();
                 break;
-        }       
+            };       
     })
 };
 
@@ -67,13 +79,13 @@ function newManager() {
     {
         type: "input",
         message: "Enter the Manager's email address",
-        name: "email"
+        name: "email",
     },
     {
         type: "input",
         message: "Enter the Manager's office number",
         name: "office",
-    },
+    }
 ]).then((response) => {
     const manager = new Manager(
         response.name,
@@ -99,7 +111,7 @@ function newEngineer() {
     {
         type: "input",
         message: "Enter the Engineer's email address",
-        name: "email"
+        name: "email",
     },
     {
         type: "input",
@@ -131,7 +143,7 @@ function newIntern() {
     {
         type: "input",
         message: "Enter the Intern's email address",
-        name: "email"
+        name: "email",
     },
     {
         type: "input",
@@ -153,8 +165,8 @@ function build() {
     
     if (!fs.existsSync(OUTPUT_DIR)) {
         fs.mkdirSync(OUTPUT_DIR);
-    }
+    };
     fs.writeFileSync(outputPath, render(team), "utf-8");
-};
+}
 
 addMember();
